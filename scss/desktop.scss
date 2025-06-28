@@ -1,0 +1,60 @@
+@use "_material" as m;
+
+.auva-clock {
+    border-radius: 10px;
+    font-size: 1.8rem;
+    color: m.$onPrimary;
+    padding: 0.2rem 1.5rem;
+    background-color: m.$primary;
+}
+
+.auva-date {
+    font-size: 1.4rem;
+    color: m.$onPrimary;
+}
+
+.auva-day {
+    font-family: 'steelfish';
+    font-size: 4rem;
+}
+
+.auva-day-color {
+    font-family: 'steelfish';
+    color: m.$primary;
+    font-size: 4rem;
+
+}
+
+.auva-weather {
+    font-size: 1.3rem;
+    font-weight: 300;
+}
+
+.auva-greeting {
+    font-family: 'Big John';
+    font-size: 3rem;
+}
+
+.auva-circprog-main {
+    min-height: 4.7rem;
+    padding: 0rem;
+    background: linear-gradient(to right, m.$primary 0%, m.$surface 100%);
+}
+
+// Container for each resource to ensure consistent sizing and alignment
+.auva-resource-container {
+    min-height: 4.7rem; // Match the height of the circular progress
+    min-width: 4.7rem; // Match the width of the circular progress
+}
+
+.auva-resource-icon {
+    margin: 0;
+    padding: 0;
+    font-size: 1.8182rem;
+    margin-top: 0px;
+    margin-left: 0px;
+}
+
+.auva-resource-label {
+    font-weight: bold;
+}

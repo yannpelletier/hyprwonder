@@ -1,0 +1,27 @@
+// https://gitlab.gnome.org/GNOME/gtk/-/blob/gtk-3-24/gtk/theme/Adwaita/_colors-public.scss
+@use "_generic";
+@use "_material" as m;
+@use "_generic" as g;
+
+// @use "desktop";
+
+levelbar trough {
+  border-radius: g.$normalRounding;
+  background-color: m.$surfaceContainerHighest; /* Background (unfilled) color: gray */
+  min-height: 12px; /* Thicker trough */
+  border: none;
+}
+
+levelbar block.filled {
+  border-radius: g.$normalRounding;
+  background-color: m.$primary; /* Active (filled) part color: blue */
+  min-height: 12px; /* Match trough thickness */
+  border-radius: 6px;
+}
+
+scrollable scrolledwindow,
+scrollable viewport {
+    border: none;
+    box-shadow: none;
+    background: transparent;
+}

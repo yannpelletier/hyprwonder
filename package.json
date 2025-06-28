@@ -1,0 +1,6 @@
+{
+    "name": "hyprwonder",
+    "dependencies": {
+        "astal": "/usr/share/astal/gjs"
+    }
+}

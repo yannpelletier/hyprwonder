@@ -1,0 +1,420 @@
+@use "sass:map";
+@use "_material" as m;
+@import url("./scss/gtk.css");
+
+// @define-color accent_color red;
+//
+// Spacing Variables
+$extraSmallPadding: 0.2rem;
+$smallPadding: 0.4rem;
+$normalPadding: 0.7rem;
+$mediumPadding: 1rem;
+$largePadding: 1.5rem;
+$extraLargePadding: 2rem;
+
+$extraSmallMargin: 0.2rem;
+$smallMargin: 0.4rem;
+$normalMargin: 0.7rem;
+$mediumMargin: 1rem;
+$largeMargin: 1.5rem;
+$extraLargeMargin: 2rem;
+
+$smallRounding: 5px;
+$normalRounding: 7px;
+$largeRounding: 20px;
+$fullRounding: 100%;
+
+// Typography Sizes
+$fontSizes: (
+  "xs": 0.7rem,
+  "sm": 0.85rem,
+  "base": 0.98rem,
+  "lg": 1.1rem,
+  "xl": 1.3rem,
+  "subtitle": 1.2rem,
+  "title": 1.8rem
+);
+
+$iconSizes: (
+  "xs": 0.7rem,
+  "sm": 0.85rem,
+  "base": 0.98rem,
+  "lg": 1.5rem,
+  "xl": 1.9rem,
+  "xxl": 2.4rem
+);
+
+// Mixins
+@mixin title-font {
+  font-family: sans-serif;
+}
+
+@mixin main-font {
+  font-family: sans-serif;
+}
+
+// Padding Mixins
+@mixin padding($size) {
+  padding: $size;
+}
+
+@mixin padding-x($size) {
+  padding-left: $size;
+  padding-right: $size;
+}
+
+@mixin padding-y($size) {
+  padding-top: $size;
+  padding-bottom: $size;
+}
+
+// Margin Mixins
+@mixin margin($size) {
+  margin: $size;
+}
+
+@mixin margin-x($size) {
+  margin-left: $size;
+  margin-right: $size;
+}
+
+@mixin margin-y($size) {
+  margin-top: $size;
+  margin-bottom: $size;
+}
+
+// Border Radius Mixins
+@mixin rounding($radius) {
+  border-radius: $radius;
+}
+
+// Typography Mixins
+@mixin text-size($size) {
+  font-size: $size;
+}
+
+@mixin icon-size($size) {
+  font-size: $size;
+}
+
+// Button Mixins (from your base file, unchanged)
+@mixin ghost-button {
+  color: m.$onBackground;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+@mixin ghost-button-hover {
+  background-color: m.$surfaceContainerHigh;
+}
+
+@mixin ghost-button-active {
+  background-color: m.$surfaceVariant;
+}
+
+@mixin ghost-button-focus {
+  background-color: m.$surfaceVariant;
+}
+
+@mixin neutral-button {
+  background-color: m.$surface;
+  color: m.$onSurface;
+  border: 1px solid m.$outlineVariant;
+  box-shadow: none;
+}
+
+@mixin neutral-button-hover {
+  background-color: m.$surfaceContainerHigh;
+  color: m.$onSurface;
+}
+
+@mixin neutral-button-active {
+  background-color: m.$surfaceContainerHighest;
+  color: m.$onSurface;
+}
+
+@mixin neutral-button-focus {
+  background-color: m.$surfaceContainerHighest;
+  color: m.$onSurface;
+}
+
+// @mixin frosted-glass {
+//   background-color: var(--accent);
+// }
+
+@mixin primary-button {
+  background-color: m.$primaryContainer;
+  color: m.$onPrimaryContainer;
+  border: 1px solid m.$primary;
+  box-shadow: none;
+}
+
+@mixin primary-button-hover {
+  background-color: m.$primary;
+  color: m.$onPrimary;
+  border: 1px solid m.$primary;
+}
+
+@mixin primary-button-focus {
+  background-color: m.$primaryContainer;
+  color: m.$onPrimaryContainer;
+}
+
+@mixin primary-button-active {
+  background-color: m.$primary;
+  color: m.$onPrimary;
+}
+
+@mixin secondary-button {
+  background-color: m.$surfaceContainer;
+  color: m.$onSurface;
+  border: 1px solid m.$outline;
+  box-shadow: none;
+}
+
+@mixin secondary-button-hover {
+  background-color: m.$surfaceContainerHigh;
+  color: m.$onSurface;
+}
+
+@mixin secondary-button-focus {
+  background-color: m.$surfaceContainerHigh;
+  box-shadow: inset 0 0 0 1px m.$outline;
+}
+
+@mixin secondary-button-active {
+  background-color: m.$surfaceContainerHighest;
+  color: m.$onSurface;
+}
+
+@mixin destructive-button {
+  background-color: m.$errorContainer;
+  color: m.$onErrorContainer;
+  border: 1px solid m.$error;
+  box-shadow: none;
+}
+
+@mixin destructive-button-hover {
+  background-color: m.$error;
+  color: m.$onError;
+}
+
+@mixin destructive-button-focus {
+  background-color: m.$errorContainer;
+  box-shadow: inset 0 0 0 1px m.$error;
+}
+
+@mixin destructive-button-active {
+  background-color: m.$error;
+  color: m.$onError;
+}
+
+
+
+// Utility Classes
+// Padding
+.p-0 { padding: 0; }
+.p-xs { @include padding($extraSmallPadding); }
+.p-sm { @include padding($smallPadding); }
+.p-base { @include padding($normalPadding); }
+.p-md { @include padding($mediumPadding); }
+.p-lg { @include padding($largePadding); }
+.p-xl { @include padding($extraLargePadding); }
+
+.px-0 { padding-left: 0; padding-right: 0; }
+.px-xs { @include padding-x($extraSmallPadding); }
+.px-sm { @include padding-x($smallPadding); }
+.px-base { @include padding-x($normalPadding); }
+.px-md { @include padding-x($mediumPadding); }
+.px-lg { @include padding-x($largePadding); }
+.px-xl { @include padding-x($extraLargePadding); }
+
+.py-0 { padding-top: 0; padding-bottom: 0; }
+.py-xs { @include padding-y($extraSmallPadding); }
+.py-sm { @include padding-y($smallPadding); }
+.py-base { @include padding-y($normalPadding); }
+.py-md { @include padding-y($mediumPadding); }
+.py-lg { @include padding-y($largePadding); }
+.py-xl { @include padding-y($extraLargePadding); }
+
+// Margin
+.m-0 { margin: 0; }
+.m-xs { @include margin($extraSmallMargin); }
+.m-sm { @include margin($smallMargin); }
+.m-base { @include margin($normalMargin); }
+.m-md { @include margin($mediumMargin); }
+.m-lg { @include margin($largeMargin); }
+.m-xl { @include margin($extraLargeMargin); }
+
+.mx-0 { margin-left: 0; margin-right: 0; }
+.mx-xs { @include margin-x($extraSmallMargin); }
+.mx-sm { @include margin-x($smallMargin); }
+.mx-base { @include margin-x($normalMargin); }
+.mx-md { @include margin-x($mediumMargin); }
+.mx-lg { @include margin-x($largeMargin); }
+.mx-xl { @include margin-x($extraLargeMargin); }
+
+.my-0 { margin-top: 0; margin-bottom: 0; }
+.my-xs { @include margin-y($extraSmallMargin); }
+.my-sm { @include margin-y($smallMargin); }
+.my-base { @include margin-y($normalMargin); }
+.my-md { @include margin-y($mediumMargin); }
+.my-lg { @include margin-y($largeMargin); }
+.my-xl { @include margin-y($extraLargeMargin); }
+
+// Border Radius
+.rounded-none { border-radius: 0; }
+.rounded-sm { @include rounding($smallRounding); }
+.rounded { @include rounding($normalRounding); }
+.rounded-lg { @include rounding($largeRounding); }
+.rounded-full { @include rounding($fullRounding); }
+
+.font-bold { font-weight: bold; }
+.font-normal { font-weight: normal; }
+
+// Colors (Using Material Design variables)
+.bg-background { background-color: m.$background; }
+.bg-primary { background-color: m.$primary; }
+.bg-primary-container { background-color: m.$primaryContainer; }
+.bg-secondary { background-color: m.$secondary; }
+.bg-secondary-container { background-color: m.$secondaryContainer; }
+.bg-surface { background-color: m.$surface; }
+.bg-surface-container { background-color: m.$surfaceContainer; }
+.bg-error { background-color: m.$error; }
+.bg-error-container { background-color: m.$errorContainer; }
+.bg-transparent { background-color: transparent; }
+
+.text-background { color: m.$onBackground; }
+.text-primary { color: m.$onPrimary; }
+.text-primary-container { color: m.$onPrimaryContainer; }
+.text-secondary { color: m.$onSecondary; }
+.text-secondary-container { color: m.$onSecondaryContainer; }
+.text-surface { color: m.$onSurface; }
+.text-error { color: m.$onError; }
+.text-error-container { color: m.$onErrorContainer; }
+
+// Typography
+@each $size, $value in $fontSizes {
+  .text-#{$size} {
+    @include text-size($value);
+    @include main-font;
+  }
+}
+
+.text-title {
+  @include text-size(map.get($fontSizes, "title"));
+  @include title-font;
+}
+
+.text-subtitle {
+  @include text-size(map.get($fontSizes, "subtitle"));
+  @include title-font;
+}
+
+@each $size, $value in $iconSizes {
+  .icon-#{$size} {
+    @include icon-size($value);
+  }
+}
+
+
+// Buttons (Using your button mixins)
+.btn-ghost {
+  @include ghost-button;
+  &:hover { @include ghost-button-hover; }
+  &:active { @include ghost-button-active; }
+  &:focus { @include ghost-button-focus; }
+}
+
+.btn-ghost-base {
+  @include ghost-button;
+}
+
+.btn-ghost-hover:hover {
+  @include ghost-button-hover;
+}
+
+.btn-ghost-active:active {
+  @include ghost-button-active;
+}
+
+.btn-ghost-focus:focus {
+  @include ghost-button-focus;
+}
+
+.btn-neutral {
+  @include neutral-button;
+  &:hover { @include neutral-button-hover; }
+  &:active { @include neutral-button-active; }
+  &:focus { @include neutral-button-focus; }
+}
+
+.btn-primary {
+  @include primary-button;
+  &:hover { @include primary-button-hover; }
+  &:active { @include primary-button-active; }
+  &:focus { @include primary-button-focus; }
+}
+
+.btn-primary-base:hover {
+  @include primary-button;
+}
+
+.btn-primary-hover:hover {
+  @include primary-button-hover;
+}
+
+.btn-primary-active:active {
+  @include primary-button-active;
+}
+
+.btn-primary-focus:focus {
+  @include primary-button-focus;
+}
+
+.btn-secondary {
+  @include secondary-button;
+  &:hover { @include secondary-button-hover; }
+  &:active { @include secondary-button-active; }
+  &:focus { @include secondary-button-focus; }
+}
+
+.btn-destructive {
+  @include destructive-button;
+  &:hover { @include destructive-button-hover; }
+  &:active { @include destructive-button-active; }
+  &:focus { @include destructive-button-focus; }
+}
+
+// .frosted-glass {
+//   @include frosted-glass;
+// }
+
+// Box Shadow
+.shadow-none { box-shadow: none; }
+.shadow-sm { box-shadow: 0 1px 3px rgba(m.$shadow, 0.2); }
+.shadow { box-shadow: 0 2px 6px rgba(m.$shadow, 0.3); }
+.shadow-lg { box-shadow: 0 4px 12px rgba(m.$shadow, 0.4); }
+
+// Border
+.border-none { border: none; }
+.border { border: 1px solid m.$outline; }
+.border-primary { border: 1px solid m.$primary; }
+.border-error { border: 1px solid m.$error; }
+
+// Opacity
+.opacity-0 { opacity: 0; }
+.opacity-50 { opacity: 0.5; }
+.opacity-100 { opacity: 1; }
+
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.pulse {
+  animation: pulse 1.5s infinite;
+}
