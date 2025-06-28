@@ -25,85 +25,55 @@
       "aarch64-linux"
     ];
     forEachSystem = nixpkgs.lib.genAttrs systems;
-    packages =
-      system: pkgs:
-      (with ags.packages.${system}; [
-        tray
-        hyprland
-        apps
-        battery
-        bluetooth
-        mpris
-        cava
-        network
-        notifd
-        powerprofiles
-        wireplumber
-      ])
-      ++ (with pkgs; [
-        typescript
-        libnotify
-        dart-sass
-        fd
-        btop
-        bluez
-        libgtop
-        gobject-introspection
-        glib
-        bluez-tools
-        grimblast
-        brightnessctl
-        gnome-bluetooth
-        gtksourceview3
-        libsoup_3
-        matugen
-        hyprpicker
-        hyprsunset
-        hypridle
-        wireplumber
-        networkmanager
-        wf-recorder
-        upower
-        gvfs
-        swww
-      ]);
-    inherit (self) outputs;
+
+    pkgs = system: nixpkgs.legacyPackages.${system};
+
+    nativeBuildInputs = system: with pkgs system; [
+      meson
+      ninja
+      pkg-config
+      gobject-introspection
+      wrapGAppsHook4
+      dart-sass
+      esbuild
+    ];
+
+    astalPackages = system: with astal.packages.${system}; [
+      io
+      astal4
+      battery
+      wireplumber
+      network
+      mpris
+      powerprofiles
+      tray
+      bluetooth
+    ];
   in {
     packages = forEachSystem (
-      system:
-      let
+      system: let
         pkgs = nixpkgs.legacyPackages.${system};
-      in
-      {
+      in {
         default = ags.lib.bundle {
           inherit pkgs;
 
-          src = ./modules/ags;
+          src = ./src;
           name = "hyprwonder";
           entry = "app.ts";
+             
+          inherit nativeBuildInputs system;
+          buildInputs = astalPackages system ++ [pkgs.gjs];
         };
       }
     );
 
     devShells = forEachSystem (
-      system:
-      let
+      system: let
         pkgs = nixpkgs.legacyPackages.${system};
-      in
-      {
+      in {
         default = pkgs.mkShell {
-          buildInputs =
-            with pkgs;
-            packages system pkgs
-            ++ [
-              ags.packages.${system}.ags
-              astal.packages.${system}.astal3
-              astal.packages.${system}.io
-              gjs
-              meson
-              pkg-config
-              ninja
-            ];
+          packages = nativeBuildInputs ++ astalPackages ++ [pkgs.gjs];
+
           shellHook = ''
             # Exporting glib-networking modules
             export GIO_EXTRA_MODULES="${pkgs.glib-networking}/lib/gio/modules"
@@ -111,7 +81,7 @@
               echo "Initialise dependencies required in order for tsserver to work? (y/anything_else)"
               read consent
               if [ "$consent" = "y" ]; then
-                ags types -d .; mkdir node_modules; ln -s ${astal.packages.${system}.gjs}/share/astal/gjs ./node_modules/astal
+                ags types -d .;
               fi
             else
               echo "You're not in the hyprwonder root directory, initialisation failed"

@@ -1,26 +1,26 @@
-import { App } from "astal/gtk3"
-import { parseCliInput } from "./lib/cli"
-import { closeWindow, getWindowName } from "./lib/widget"
-import AppLauncher from "./modules/app-launcher/AppLauncher"
-import Bar from "./modules/bar/Bar"
-import ClipboardManager from "./modules/clipboard-manager/ClipboardManager"
-import WallpaperSelector from "./modules/wallpaper-selector/WallpaperSelector"
-import Indicators from "./modules/indicators/Indicators"
-import LogoutMenu from "./modules/logout/LogoutMenu"
-import Notifications from "./modules/notifications/Notifications"
-import PasswordManager, { PasswordManagerRoute } from "./modules/password-manager/PasswordManager"
+import { App } from "astal/gtk4"
+// import { parseCliInput } from "./lib/cli"
+// import { closeWindow, getWindowName } from "./lib/widget"
+// import AppLauncher from "./modules/app-launcher/AppLauncher"
+// import Bar from "./modules/bar/Bar"
+// import ClipboardManager from "./modules/clipboard-manager/ClipboardManager"
+// import WallpaperSelector from "./modules/wallpaper-selector/WallpaperSelector"
+// import Indicators from "./modules/indicators/Indicators"
+// import LogoutMenu from "./modules/logout/LogoutMenu"
+// import Notifications from "./modules/notifications/Notifications"
+// import PasswordManager, { PasswordManagerRoute } from "./modules/password-manager/PasswordManager"
 import AstalHyprland from "gi://AstalHyprland"
-import { Router } from "./lib/router"
+// import { Router } from "./lib/router"
 import style from "./scss/main.scss"
-import { resetCss } from "./lib/system"
+// import { resetCss } from "./lib/system"
 
-const POPUP_NAME = "popup";
-
-const passwordRouter = new Router<PasswordManagerRoute>({ name: "search" });
+// const POPUP_NAME = "popup";
+//
+// const passwordRouter = new Router<PasswordManagerRoute>({ name: "search" });
 
 const openAppWindows = (monitor: number) => {
   if (monitor === 0) {
-    Indicators({ name: "indicators", monitor })
+    // Indicators({ name: "indicators", monitor })
     // if (!App.get_window("bar")) {
     //   Bar({ name: "bar", monitor });
     // }
@@ -34,9 +34,9 @@ const openAppWindows = (monitor: number) => {
 }
 
 const closeAppWindows = (monitor: number) => {
-  for (const window of App.get_windows()) {
-    closeWindow(window.name);
-  }
+  // for (const window of App.get_windows()) {
+  //   closeWindow(window.name);
+  // }
 }
 
 App.start({
@@ -120,9 +120,9 @@ App.start({
       openAppWindows(monitor.id);
     });
 
-    // hyprland.connect("monitor-removed", (_, monitor) => {
-    //   closeAppWindows(monitor);
-    // })
+    hyprland.connect("monitor-removed", (_, monitor) => {
+      closeAppWindows(monitor);
+    })
     //
     App.get_monitors().map((_, monitor) => {
       openAppWindows(monitor);
