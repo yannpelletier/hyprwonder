@@ -1,9 +1,6 @@
 @use "sass:map";
 @use "_material" as m;
-@import url("./scss/gtk.css");
 
-// @define-color accent_color red;
-//
 // Spacing Variables
 $extraSmallPadding: 0.2rem;
 $smallPadding: 0.4rem;
@@ -139,9 +136,9 @@ $iconSizes: (
   color: m.$onSurface;
 }
 
-// @mixin frosted-glass {
-//   background-color: var(--accent);
-// }
+@mixin frosted-glass {
+  background-color: var(--accent);
+}
 
 @mixin primary-button {
   background-color: m.$primaryContainer;
@@ -387,9 +384,9 @@ $iconSizes: (
   &:focus { @include destructive-button-focus; }
 }
 
-// .frosted-glass {
-//   @include frosted-glass;
-// }
+.frosted-glass {
+  @include frosted-glass;
+}
 
 // Box Shadow
 .shadow-none { box-shadow: none; }

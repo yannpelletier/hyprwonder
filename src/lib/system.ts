@@ -1,5 +1,7 @@
-import { exec, execAsync, GLib, Gio } from "astal";
-import { App, Gdk, Gtk } from "astal/gtk3";
+import { Gdk, Gtk } from "ags/gtk4";
+import { exec } from "ags/process";
+import Gio from "gi://Gio?version=2.0"
+import GLib from "gi://GLib?version=2.0"
 
 const textDecoder = new TextDecoder();
 

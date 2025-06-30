@@ -1,5 +1,0 @@
-@import url("gtk-3.0/gtk.css");
-
-.frosted-glass {
-  background-color: @accent_color;
-}

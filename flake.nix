@@ -1,11 +1,8 @@
 {
-  inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+  description = "My Awesome Desktop Shell";
 
-    astal = {
-      url = "github:aylur/astal";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
 
     ags = {
       url = "github:aylur/ags";
@@ -16,79 +13,68 @@
   outputs = {
     self,
     nixpkgs,
-    astal,
     ags,
-    ...
-  } @ inputs: let
-    systems = [
-      "x86_64-linux"
-      "aarch64-linux"
-    ];
-    forEachSystem = nixpkgs.lib.genAttrs systems;
+  }: let
+    system = "x86_64-linux";
+    pkgs = nixpkgs.legacyPackages.${system};
+    pname = "hyprwonder";
+    entry = "app.ts";
 
-    pkgs = system: nixpkgs.legacyPackages.${system};
-
-    nativeBuildInputs = system: with pkgs system; [
-      meson
-      ninja
-      pkg-config
-      gobject-introspection
-      wrapGAppsHook4
-      dart-sass
-      esbuild
-    ];
-
-    astalPackages = system: with astal.packages.${system}; [
+    astalPackages = with ags.packages.${system}; [
+      astal4 
       io
-      astal4
+      apps
       battery
       wireplumber
       network
       mpris
-      powerprofiles
       tray
       bluetooth
+      hyprland
+      powerprofiles
     ];
+
+    extraPackages =
+      astalPackages
+      ++ [
+        pkgs.libadwaita
+        pkgs.libsoup_3
+      ];
   in {
-    packages = forEachSystem (
-      system: let
-        pkgs = nixpkgs.legacyPackages.${system};
-      in {
-        default = ags.lib.bundle {
-          inherit pkgs;
+    packages.${system} = {
+      default = pkgs.stdenv.mkDerivation {
+        name = pname;
+        src = ./.;
 
-          src = ./src;
-          name = "hyprwonder";
-          entry = "app.ts";
-             
-          inherit nativeBuildInputs system;
-          buildInputs = astalPackages system ++ [pkgs.gjs];
-        };
-      }
-    );
+        nativeBuildInputs = with pkgs; [
+          wrapGAppsHook
+          gobject-introspection
+          ags.packages.${system}.default
+        ];
 
-    devShells = forEachSystem (
-      system: let
-        pkgs = nixpkgs.legacyPackages.${system};
-      in {
-        default = pkgs.mkShell {
-          packages = nativeBuildInputs ++ astalPackages ++ [pkgs.gjs];
+        buildInputs = extraPackages ++ [pkgs.gjs];
 
-          shellHook = ''
-            # Exporting glib-networking modules
-            export GIO_EXTRA_MODULES="${pkgs.glib-networking}/lib/gio/modules"
-            if [ "''${PWD##*/}" = "hyprwonder" ]; then
-              echo "Initialise dependencies required in order for tsserver to work? (y/anything_else)"
-              read consent
-              if [ "$consent" = "y" ]; then
-                ags types -d .;
-              fi
-            else
-              echo "You're not in the hyprwonder root directory, initialisation failed"
-            fi
-          '';
-        };
-      }
-    );
+        installPhase = ''
+          runHook preInstall
+
+          mkdir -p $out/bin
+          mkdir -p $out/share
+          cp -r * $out/share
+          ags bundle ${entry} $out/bin/${pname} -d "SRC='$out/share'"
+
+          runHook postInstall
+        '';
+      };
+    };
+
+    devShells.${system} = {
+      default = pkgs.mkShell {
+        buildInputs = [
+          (ags.packages.${system}.default.override {
+            inherit extraPackages;
+          })
+        ];
+      };
+    };
   };
 }
